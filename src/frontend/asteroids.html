@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asteroids Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+            color: white;
+        }
+        
+        #gameContainer {
+            text-align: center;
+        }
+        
+        canvas {
+            border: 2px solid #333;
+            background: #000;
+            outline: none;
+        }
+        
+        canvas:focus {
+            border-color: #555;
+        }
+        
+        #gameInfo {
+            margin-top: 10px;
+            font-size: 24px;
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #soundToggle {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            margin-left: 20px;
+            transition: opacity 0.3s ease;
+            min-width: 40px;
+            min-height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1000;
+            opacity: 0.5;
+            outline: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            pointer-events: auto;
+        }
+        
+        #soundToggle:focus {
+            outline: none !important;
+            border: none !important;
+        }
+        
+        #soundToggle:hover {
+            opacity: 0.7;
+        }
+        
+        #soundToggle:not(.muted) {
+            color: white;
+            opacity: 1;
+        }
+        
+        #controls {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600" tabindex="0"></canvas>
+        <div id="gameInfo">
+            <div>Score: <span id="score">0</span></div>
+            <div>Lives: <span id="lives">3</span></div>
+            <div>Level: <span id="level">1</span></div>
+            <div id="soundToggle" class="muted" title="Enable Sound (Click to activate audio)" role="button" aria-label="Toggle Sound">🔇</div>
+        </div>
+        <div id="controls">
+            <p>Controls: Arrow Keys to move, Spacebar to shoot</p>
+            <p>↑ Thrust | ← → Rotate | ↓ Hyperspace | Space Fire</p>
+            <p><small>🎮 Sound starts muted due to browser policy - click the speaker icon to enable audio</small></p>
+        </div>
+    </div>
+    
+    <script src="asteroids.js"></script>
+</body>
+</html>

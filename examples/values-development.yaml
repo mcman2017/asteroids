@@ -1,0 +1,173 @@
+# Asteroids Game Development Configuration
+# Minimal configuration for testing and development
+
+# Global configuration
+global:
+  imageRegistry: "localhost"
+  imagePullSecrets: []
+
+# Frontend configuration
+frontend:
+  image:
+    registry: "localhost"
+    repository: "asteroids-frontend"
+    tag: "latest"
+    pullPolicy: Always  # Always pull for development
+  
+  replicaCount: 1
+  
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 8080
+  
+  livenessProbe:
+    enabled: true
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 15
+    periodSeconds: 30
+  
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
+# Backend configuration
+backend:
+  image:
+    registry: "localhost"
+    repository: "asteroids-backend"
+    tag: "latest"
+    pullPolicy: Always  # Always pull for development
+  
+  replicaCount: 1
+  
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  
+  service:
+    type: ClusterIP
+    port: 3000
+    targetPort: 3000
+  
+  env:
+    NODE_ENV: development
+    PORT: 3000
+  
+  livenessProbe:
+    enabled: true
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 30
+  
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 10
+
+# PostgreSQL configuration (minimal for dev)
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: "postgres123"
+    username: "gameuser"
+    password: "gamepass123"
+    database: "asteroids"
+  
+  primary:
+    persistence:
+      enabled: true
+      size: 5Gi
+      storageClass: ""  # Use default storage class
+    
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+# Ingress configuration (basic)
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"  # Allow HTTP for dev
+    nginx.ingress.kubernetes.io/proxy-body-size: "1m"
+  hosts:
+    - host: asteroids-dev.local
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend
+        - path: /api
+          pathType: Prefix
+          service: backend
+  tls: []  # No TLS for development
+
+# Security context (relaxed for development)
+securityContext:
+  enabled: false
+
+# Pod security context (minimal)
+podSecurityContext:
+  enabled: false
+
+# Service account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# Disable production features for development
+podDisruptionBudget:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+networkPolicy:
+  enabled: false
+
+monitoring:
+  enabled: false
+
+# Node selection
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity
+affinity: {}
+
+# Additional labels
+commonLabels:
+  environment: development
+
+# Additional annotations
+commonAnnotations: {}
