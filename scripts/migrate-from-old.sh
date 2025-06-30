@@ -86,7 +86,7 @@ backup_current_config() {
 build_new_images() {
     log_info "🔨 Building new container images..."
     
-    cd /Users/anthonymcaniff/asteroids
+    cd /Users/<<your-username>>/asteroids
     
     # Build images using our new script
     ./scripts/build-images.sh
@@ -236,7 +236,7 @@ EOF
 deploy_new_version() {
     log_info "🚀 Deploying new containerized version..."
     
-    cd /Users/anthonymcaniff/asteroids
+    cd /Users/<<your-username>>/asteroids
     
     # Deploy using our migration values
     ./scripts/deploy-asteroids.sh "$BACKUP_DIR/migration-values.yaml"
